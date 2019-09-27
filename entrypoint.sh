@@ -29,4 +29,4 @@ eval "yarn install" && \
 
 # Builds the project
 echo "Running build scripts.." && \
-eval "yarn build" && \
+eval "yarn build"
