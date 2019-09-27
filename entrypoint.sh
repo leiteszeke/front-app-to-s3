@@ -10,28 +10,23 @@ fi
 
 FOLDER=build
 
-# Installs Git and jq.
+# Installs Git
 apt-get update && \
 apt-get install -y git && \
-apt-get install -y awscli && \
 
 # Directs the action to the the Github workspace.
 cd $GITHUB_WORKSPACE && \
 
-# Configures Git.
-git init && \
+# Clone repository
+git clone https://${ACCESS_TOKEN:-"x-access-token:$GITHUB_TOKEN"}@github.com/${GITHUB_REPOSITORY}.git . && \
 
-## Initializes the repository path using the access token.
-REPOSITORY_PATH="https://${ACCESS_TOKEN:-"x-access-token:$GITHUB_TOKEN"}@github.com/${GITHUB_REPOSITORY}.git" && \
-
-# Checks out the base branch to begin the deploy process.
+# Checks out to master.
 git checkout master && \
 
-# Builds the project if a build script is provided.
-echo "Running build scripts... $BUILD_SCRIPT" && \
-eval "$BUILD_SCRIPT" && \
+# Install dependencies
+echo "Installing dependencies.." && \
+eval "yarn install" && \
 
-if [ "$CNAME" ]; then
-  echo "Generating a CNAME file in in the $FOLDER directory..."
-  echo $CNAME > $FOLDER/CNAME
-fi
+# Builds the project
+echo "Running build scripts.." && \
+eval "yarn build" && \
