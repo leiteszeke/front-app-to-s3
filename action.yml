@@ -1,0 +1,9 @@
+name: 'Build React App and Deploy to S3 Bucket'
+description: 'This action will build your React App and deploy it to a Amazon S3 Bucket.'
+author: 'Ezequiel Leites <ezequiel@leites.dev>'
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
+branding:
+  icon: 'git-commit'
+  color: 'orange'
