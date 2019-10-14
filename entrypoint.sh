@@ -13,6 +13,10 @@ FOLDER=build
 # Installs Git
 apt-get update && \
 apt-get install -y git && \
+apt-get install supervisor python3-pip supervisor vim -y && \
+apt-get update -y && \
+pip3 install --upgrade --user awscli && \
+eval "export PATH=/root/.local/bin:$PATH" && \
 
 # Directs the action to the the Github workspace.
 cd $GITHUB_WORKSPACE && \
@@ -23,10 +27,24 @@ git clone https://${ACCESS_TOKEN:-"x-access-token:$GITHUB_TOKEN"}@github.com/${G
 # Checks out to master.
 git checkout master && \
 
-# Install dependencies
-echo "Installing dependencies.." && \
-eval "yarn install" && \
 
-# Builds the project
-echo "Running build scripts.." && \
-eval "yarn build"
+if [ -z "$BUILD_SCRIPTS" ]
+then
+  # Install dependencies
+  echo "Installing dependencies.." && \
+  eval "yarn install" && \
+
+  # Builds the project
+  echo "Running build scripts.." && \
+  eval "yarn build" && \
+else
+  # Running commands
+  echo "Running build scripts.." && \
+  eval ${BUILD_SCRIPTS}
+fi
+
+# Deploy to S3
+/root/.local/bin/aws configure set region ${AWS_REGION} && \
+/root/.local/bin/aws configure set aws_access_key_id ${AWS_ACCESS_KEY_ID} && \
+/root/.local/bin/aws configure set aws_secret_access_key ${AWS_SECRET_ACCESS_KEY} && \
+/root/.local/bin/aws s3 sync ${FOLDER} s3://${BUCKET} --acl public-read
