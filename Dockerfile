@@ -24,6 +24,5 @@ RUN set -x \
 
 RUN /bin/bash -c "source /root/.bashrc"
 RUN /bin/bash -c "source /home/node/.bashrc"
-# RUN ./entrypoint.sh
 
-CMD ["/usr/bin/supervisord", "-n", "-c", "/etc/supervisord.conf"]
+ENTRYPOINT ["/entrypoint.sh"]
