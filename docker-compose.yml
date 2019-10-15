@@ -1,0 +1,8 @@
+version: '3'
+services:
+  deployer:
+    container_name: deployer
+    build: .
+    ports:
+      - "3005:80"
+    restart: always
