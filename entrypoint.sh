@@ -13,6 +13,10 @@ FOLDER=build
 # Installs Git
 apt-get update && \
 apt-get install -y git && \
+apt-get install supervisor python3-pip supervisor vim -y && \
+apt-get update -y && \
+pip3 install --upgrade --user awscli && \
+eval "export PATH=/root/.local/bin:$PATH" && \
 
 # Directs the action to the the Github workspace.
 cd $GITHUB_WORKSPACE && \

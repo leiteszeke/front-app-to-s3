@@ -11,8 +11,6 @@ LABEL "repository"="http://github.com/leiteszeke/github-react-build"
 LABEL "homepage"="http://github.com/leiteszeke/github-react-build"
 LABEL "maintainer"="Ezequiel Leites <ezequiel@leites.dev>"
 
-ADD ./.bashrc /root/.bashrc
-ADD ./.bashrc /home/node/.bashrc
 ADD ./supervisord.conf /etc/supervisord.conf
 ADD ./entrypoint.sh ./entrypoint.sh
 
@@ -21,8 +19,5 @@ RUN set -x \
 	&& apt install supervisor git-core python3-pip supervisor vim -y \
     && apt update -y \
     && pip3 install --upgrade --user awscli
-
-RUN /bin/bash -c "source /root/.bashrc"
-RUN /bin/bash -c "source /home/node/.bashrc"
 
 ENTRYPOINT ["/entrypoint.sh"]
