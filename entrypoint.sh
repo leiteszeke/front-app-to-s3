@@ -31,8 +31,8 @@ eval "yarn install" && \
 echo "Running build scripts.." && \
 eval "yarn build" && \
 
-source /root/.bashrc && \
-source /home/node/.bashrc && \
+eval "source /root/.bashrc" && \
+eval "source /home/node/.bashrc" && \
 
 # Deploy to S3
 aws configure set region ${AWS_REGION} && \
