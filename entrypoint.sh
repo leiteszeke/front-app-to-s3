@@ -30,3 +30,9 @@ eval "yarn install" && \
 # Builds the project
 echo "Running build scripts.." && \
 eval "yarn build"
+
+# Deploy to S3
+aws configure set region ${AWS_REGION}
+aws configure set aws_access_key_id ${AWS_ACCESS_KEY_ID}
+aws configure set aws_secret_access_key ${AWS_SECRET_ACCESS_KEY}
+aws s3 sync ${FOLDER} s3://${BUCKET} --acl public-read
